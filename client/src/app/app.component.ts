@@ -29,16 +29,17 @@ export class AppComponent {
     dialogRef.afterClosed().subscribe(result => {
       console.log('res',result); 
       this.dataSource = result
-      this.startTimer(result.data)
+      
        if(result.data > 0){
          this.timercount++
-         this.timerArray.push({id:this.timercount,val:result.data})
+         this.timerArray.push({id:this.timercount,val:result.data,dis:""})
        }
+       this.startTimer(result.data,this.timercount)
       this.startDisplay()
     });
   }
   
-  startTimer(minute: number){
+  startTimer(minute: number,timercount){
     let minutes = minute
     let counter = 60 * minutes
     let i = 59;
@@ -56,7 +57,9 @@ export class AppComponent {
         minutes = minutes - 1
       }
 
-      this.timeEndDisplay = minutes + ":" + i--
+      
+      this.timeEndDisplay = "Timer " + timercount + " :-  " + minutes + ":" + i--
+      this.timerArray[timercount-1].dis = this.timeEndDisplay
       if (counter == 0 ) {
         clearInterval(interval);
         console.log('Ding!');

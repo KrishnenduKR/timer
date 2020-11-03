@@ -27,15 +27,13 @@ export class AppComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('res',result); 
       this.dataSource = result
       
        if(result.data > 0){
          this.timercount++
-         this.timerArray.push({id:this.timercount,val:result.data,dis:""})
+         this.timerArray.push({id:this.timercount,val:result.data,dis:"",status:true})
        }
        this.startTimer(result.data,this.timercount)
-      this.startDisplay()
     });
   }
   
@@ -43,13 +41,13 @@ export class AppComponent {
     let minutes = minute
     let counter = 60 * minutes
     let i = 59;
-    console.log('minut',minutes)
 
       minutes = minutes - 1
 
     const interval = setInterval(() => {
       if(minutes < 0) {
         clearInterval(interval);
+        
       }
       counter = counter - 1
       if(i < 0 && minutes >= 0){
@@ -62,18 +60,10 @@ export class AppComponent {
       this.timerArray[timercount-1].dis = this.timeEndDisplay
       if (counter == 0 ) {
         clearInterval(interval);
-        console.log('Ding!');
+        this.timerArray[timercount-1].status = false;
       }
     }, 1000);
     
   }
-
-   startDisplay(){
-     this.timeDisplay = "";
-       for(let i=0; i<this.timercount;i++){
-           this.timeDisplay += "Timer " + this.timerArray[i].id + " : "
-       }
-
-   }
 
 }

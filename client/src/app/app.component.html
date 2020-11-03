@@ -8,6 +8,6 @@
         
   </div>
   <div class="display" *ngFor="let data of timerArray">
-    <h2>{{data.dis}}</h2>
+    <h2 [ngStyle]="{'text-decoration' : data.status? 'none':'line-through'}">{{data.dis}}</h2>
   </div>
 

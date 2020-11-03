@@ -1,0 +1,11 @@
+<div color="primary" class="head">
+    <button mat-icon-button class="dialogclose" (click)="onClose()" matTooltip="Close" matTooltipPosition="right"><mat-icon>close</mat-icon></button> 
+    <h1 class="dialogtitle">Add New Timer</h1>
+</div>
+<div class="content">
+    <mat-label>Timeout in minutes</mat-label>
+        &nbsp;&nbsp;<input matInput type="number" placeholder="Ex. 10" min="0" class="minutes" #minuteControl>
+</div>
+<div class="btnaction">
+    <button mat-raised-button class="buttonadd" color="primary" (click)="onAdd(minuteControl.value)">Add</button>
+</div>

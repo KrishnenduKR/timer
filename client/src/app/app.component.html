@@ -1,0 +1,13 @@
+
+  <mat-toolbar color="primary">
+    <mat-icon>home</mat-icon>&nbsp;&nbsp;Timer
+  </mat-toolbar>
+
+  <div class="container">
+    <button mat-raised-button color="primary" (click)="openDialog()">Add New Timer +</button>
+        
+  </div>
+  <div class="display" *ngIf="timercount">
+    <h2>{{timeEndDisplay}}</h2>
+  </div>
+

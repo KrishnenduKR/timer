@@ -4,7 +4,7 @@
 </div>
 <div class="content">
     <mat-label>Timeout in minutes</mat-label>
-        &nbsp;&nbsp;<input matInput type="number" placeholder="Ex. 10" min="0" class="minutes" #minuteControl>
+        &nbsp;&nbsp;<input matInput type="number" placeholder="Ex. 10" min="1" class="minutes" #minuteControl>
 </div>
 <div class="btnaction">
     <button mat-raised-button class="buttonadd" color="primary" (click)="onAdd(minuteControl.value)">Add</button>

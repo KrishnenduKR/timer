@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { CreateTimerDialogComponent } from './create-timer-dialog/create-timer-dialog.component';
+import { TimerService } from './timer.service';
 
 @Component({
   selector: 'app-root',
@@ -16,8 +17,9 @@ export class AppComponent {
   timerArray = [];
   timercount
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, public timerService : TimerService) {
      this.timercount = 0;
+     console.log('get',timerService.getTimerSeconds)
   }
 
   openDialog(){
@@ -32,8 +34,13 @@ export class AppComponent {
        if(result.data > 0){
          this.timercount++
          this.timerArray.push({id:this.timercount,val:result.data,dis:"",status:true})
+         this.startTimer(result.data,this.timercount)
+         let data = {"id":this.timercount,"minute":result.data}
+         this.timerService.createTimer(data).subscribe(result =>{
+           console.log('createserviceresult',result)
+         })
        }
-       this.startTimer(result.data,this.timercount)
+       
     });
   }
   

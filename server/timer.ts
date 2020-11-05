@@ -1,41 +1,51 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import * as bodyParser from "body-parser";
+import express = require('express');
+class Timer{
 
-export const router: Router = Router();
+    public express: express.Application;
 
-var corsOptions = {
-    origin: 'http://localhost:4200',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
+    public secondsArr : number[];
 
-var secondsArr : number[] = [];
-
-router.get('/timers', function (req: Request, res: Response, next: NextFunction) {
-    try {
-      res.send(secondsArr);
+    constructor() {
+        this.express = express();
+        this.middleware();
+        this.routes();
+        this.secondsArr = [];
     }
-    catch (err) {
-      return next(err);
+
+    // Configure Express middleware.
+    private middleware(): void {
+        this.express.use(bodyParser.json());
+        this.express.use(bodyParser.urlencoded({ extended: false }));
     }
-  });
 
-  router.post('/timer', function (req: Request, res: Response){
-        console.log('serverreq',req.body)
-        startTimer(req.body.data)
-        return secondsArr;
-  });
+    private routes(): void {
+        this.express.get("/timers", (req, res, next) => {
+            res.json(this.secondsArr);
+        });
 
-  function startTimer(data:any){
-    let minute = data.minute
-    let id = data.id
-    let seconds  = minute * 60
+        this.express.post("/timer", (req, res, next) => {
+            console.log('reqbody',typeof (req.body))
+            this.startTimer(req.body);
+           // res.json();
+        });
+    }
 
-        const interval = setInterval(() => {
-            seconds--
-            secondsArr[id-1] = seconds
-            if (seconds < 0 ) {
-                clearInterval(interval);
-                console.log('Ding!');
-              }
-        }, 1000);
-     
-  }
+    startTimer(data:any){
+        let minute = data.minute
+        let id = data.id
+        let seconds  = minute * 60
+    
+            const interval = setInterval(() => {
+                seconds--
+                this.secondsArr[id-1] = seconds
+                if (seconds < 0 ) {
+                    clearInterval(interval);
+                    console.log('Ding!');
+                  }
+            }, 1000);
+         
+      }
+}
+
+export default new Timer().express;

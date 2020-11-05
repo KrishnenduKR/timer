@@ -18,46 +18,27 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var bodyParser = __importStar(require("body-parser"));
 var express = require("express");
-var Timer = /** @class */ (function () {
-    function Timer() {
+var timer_1 = __importDefault(require("./timer"));
+var Routes = /** @class */ (function () {
+    function Routes() {
         this.express = express();
         this.middleware();
         this.routes();
-        this.secondsArr = [];
     }
     // Configure Express middleware.
-    Timer.prototype.middleware = function () {
+    Routes.prototype.middleware = function () {
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: false }));
     };
-    Timer.prototype.routes = function () {
-        var _this = this;
-        this.express.get("/timers", function (req, res, next) {
-            res.json(_this.secondsArr);
-        });
-        this.express.post("/timer", function (req, res, next) {
-            console.log('reqbody', typeof (req.body));
-            _this.startTimer(req.body);
-            // res.json();
-        });
+    Routes.prototype.routes = function () {
+        this.express.use("/", timer_1.default);
     };
-    Timer.prototype.startTimer = function (data) {
-        var _this = this;
-        var minute = data.minute;
-        var id = data.id;
-        var seconds = minute * 60;
-        var interval = setInterval(function () {
-            seconds--;
-            _this.secondsArr[id - 1] = seconds;
-            if (seconds < 0) {
-                clearInterval(interval);
-                console.log('Ding!');
-            }
-        }, 1000);
-    };
-    return Timer;
+    return Routes;
 }());
-exports.default = new Timer().express;
+exports.default = new Routes().express;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-const baseUrl = 'http://localhost:4201';
+const baseUrl = '/api';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class TimerService {
   constructor( private http: HttpClient) { }
 
   getTimerSeconds() {
-    return this.http.request('get', baseUrl + '/timers',{});
+    return this.http.get(baseUrl + '/timers',{});
   }
 
   createTimer(data) {
@@ -20,8 +20,8 @@ export class TimerService {
       "id": data.id,
       "minute" : data.minute
     });
-    console.log('data',body)
+    console.log('data',JSON.parse(body))
     const headers = { 'content-type': 'application/json'}
-    return this.http.post(baseUrl + '/timer', body, {'headers':headers});
+    return this.http.post(baseUrl + '/timer', JSON.parse(body), {'headers':headers});
   }
 }

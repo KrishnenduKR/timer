@@ -39,7 +39,7 @@ class Timer{
             const interval = setInterval(() => {
                 seconds--
                 this.secondsArr[id-1] = seconds
-                if (seconds < 0 ) {
+                if (seconds == 0 ) {
                     clearInterval(interval);
                     console.log('Ding!');
                   }

@@ -52,7 +52,7 @@ var Timer = /** @class */ (function () {
         var interval = setInterval(function () {
             seconds--;
             _this.secondsArr[id - 1] = seconds;
-            if (seconds < 0) {
+            if (seconds == 0) {
                 clearInterval(interval);
                 console.log('Ding!');
             }

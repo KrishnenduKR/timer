@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 const baseUrl = '/api';
 
@@ -10,8 +11,8 @@ export class TimerService {
 
   constructor( private http: HttpClient) { }
 
-  getTimerSeconds() {
-    return this.http.get(baseUrl + '/timers',{});
+  getTimerSeconds() : Observable<number[]> {
+    return this.http.get<number[]>(baseUrl + '/timers',{});
   }
 
   createTimer(data) {

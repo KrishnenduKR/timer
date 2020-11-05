@@ -1,14 +1,16 @@
-import { Component, Inject } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { CreateTimerDialogComponent } from './create-timer-dialog/create-timer-dialog.component';
 import { TimerService } from './timer.service';
+import { NavigationStart, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   title = 'Timer';
   data = false;
   dataSource;
@@ -17,9 +19,21 @@ export class AppComponent {
   timerArray = [];
   timercount
 
-  constructor(public dialog: MatDialog, public timerService : TimerService) {
+  subscription: Subscription;
+  browserRefresh = false;
+  secondsArr : number[];
+
+  constructor(public dialog: MatDialog, public timerService : TimerService,private router: Router) {
      this.timercount = 0;
-     console.log('get',timerService.getTimerSeconds)
+     this.subscription = router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.browserRefresh = !router.navigated;
+        timerService.getTimerSeconds().subscribe( seconds => {
+          this.secondsArr = seconds
+          console.log(this.secondsArr)
+        })
+      }
+    });
   }
 
   openDialog(){
@@ -71,6 +85,10 @@ export class AppComponent {
       }
     }, 1000);
     
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

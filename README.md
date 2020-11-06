@@ -19,6 +19,3 @@ npm start
 ```
 Then visit `http://localhost:4200/timer`
 
-## Heroku
-
-View the deployed project in heroku `heroku url`

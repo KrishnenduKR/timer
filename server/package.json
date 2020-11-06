@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "tsc":"tsc",
-    "start": "ts-node index.ts",
+    "start": "tsc && node dist/app.js",
+    "build": "tsc",
     "start:dev": "./node_modules/nodemon/bin/nodemon.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "tslint": "tslint --project tsconfig.json --config tslint.json",

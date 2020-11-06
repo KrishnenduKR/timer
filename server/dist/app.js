@@ -22,34 +22,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var bodyParser = __importStar(require("body-parser"));
-var express = require("express");
-var routes_1 = __importDefault(require("./routes"));
-var App = /** @class */ (function () {
-    function App() {
+const bodyParser = __importStar(require("body-parser"));
+const express = require("express");
+const routes_1 = __importDefault(require("./routes"));
+class App {
+    constructor() {
         this.express = express();
         this.middleware();
         this.routes();
     }
     // Configure Express middleware.
-    App.prototype.middleware = function () {
+    middleware() {
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: false }));
-    };
-    App.prototype.routes = function () {
-        this.express.get("/", function (req, res, next) {
+    }
+    routes() {
+        this.express.get("/", (req, res, next) => {
             res.send("Typescript App works!!");
         });
         // user route
         this.express.use("/api", routes_1.default);
         // handle undefined routes
-        this.express.use("*", function (req, res, next) {
+        this.express.use("*", (req, res, next) => {
             res.send("Make sure url is correct!!!");
         });
         this.express.listen(3000, function () {
             console.log('App is listening on port 3000!');
         });
-    };
-    return App;
-}());
+    }
+}
 exports.default = new App().express;

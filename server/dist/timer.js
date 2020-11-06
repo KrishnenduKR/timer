@@ -19,45 +19,42 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var bodyParser = __importStar(require("body-parser"));
-var express = require("express");
-var Timer = /** @class */ (function () {
-    function Timer() {
+const bodyParser = __importStar(require("body-parser"));
+const express = require("express");
+class Timer {
+    constructor() {
         this.express = express();
         this.middleware();
         this.routes();
         this.secondsArr = [];
     }
     // Configure Express middleware.
-    Timer.prototype.middleware = function () {
+    middleware() {
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: false }));
-    };
-    Timer.prototype.routes = function () {
-        var _this = this;
-        this.express.get("/timers", function (req, res, next) {
-            res.json(_this.secondsArr);
+    }
+    routes() {
+        this.express.get("/timers", (req, res, next) => {
+            res.json(this.secondsArr);
         });
-        this.express.post("/timer", function (req, res, next) {
+        this.express.post("/timer", (req, res, next) => {
             console.log('reqbody', typeof (req.body));
-            _this.startTimer(req.body);
+            this.startTimer(req.body);
             // res.json();
         });
-    };
-    Timer.prototype.startTimer = function (data) {
-        var _this = this;
-        var minute = data.minute;
-        var id = data.id;
-        var seconds = minute * 60;
-        var interval = setInterval(function () {
+    }
+    startTimer(data) {
+        let minute = data.minute;
+        let id = data.id;
+        let seconds = minute * 60;
+        const interval = setInterval(() => {
             seconds--;
-            _this.secondsArr[id - 1] = seconds;
+            this.secondsArr[id - 1] = seconds;
             if (seconds == 0) {
                 clearInterval(interval);
                 console.log('Ding!');
             }
         }, 1000);
-    };
-    return Timer;
-}());
+    }
+}
 exports.default = new Timer().express;

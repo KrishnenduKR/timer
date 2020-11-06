@@ -22,23 +22,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var bodyParser = __importStar(require("body-parser"));
-var express = require("express");
-var timer_1 = __importDefault(require("./timer"));
-var Routes = /** @class */ (function () {
-    function Routes() {
+const bodyParser = __importStar(require("body-parser"));
+const express = require("express");
+const timer_1 = __importDefault(require("./timer"));
+class Routes {
+    constructor() {
         this.express = express();
         this.middleware();
         this.routes();
     }
     // Configure Express middleware.
-    Routes.prototype.middleware = function () {
+    middleware() {
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: false }));
-    };
-    Routes.prototype.routes = function () {
+    }
+    routes() {
         this.express.use("/", timer_1.default);
-    };
-    return Routes;
-}());
+    }
+}
 exports.default = new Routes().express;

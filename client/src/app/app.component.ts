@@ -48,7 +48,7 @@ export class AppComponent implements OnDestroy {
 
       if (result.data > 0) {
         this.timercount++
-        this.timerArray.push({ id: this.timercount, val: result.data, dis: "", status: true })
+        this.timerArray.push({ id: this.timercount, val: result.data, minute:"",second:"", status: true })
         this.startTimer(result.data, this.timercount)
         let data = { "id": this.timercount, "minute": result.data }
         this.timerService.createTimer(data).subscribe(result => {
@@ -78,8 +78,9 @@ export class AppComponent implements OnDestroy {
       }
 
       
-      this.timeEndDisplay = "Timer " + timercount + " :-  " + minutes + ":" + i--
-      this.timerArray[timercount - 1].dis = this.timeEndDisplay
+      this.timerArray[timercount - 1].minute = minutes
+      this.timerArray[timercount - 1].second = i
+      i--
       counter = counter - 1
       if (counter == 0) {
         clearInterval(interval);
@@ -95,14 +96,15 @@ export class AppComponent implements OnDestroy {
       let minute;
       this.timercount++
       let counter = secondArr[i]
-      this.timerArray.push({ id: i, val: counter, dis: "", status: true })
+      this.timerArray.push({ id: this.timercount, val: counter, minute:"",second:"", status: true })
 
 
       if (secondArr[i] == 0) {
         minute = 0
         second = 0
-        this.timeEndDisplay = "Timer " + (i + 1) + " :-  " + minute + ":" + second
-        this.timerArray[i].dis = this.timeEndDisplay
+        
+        this.timerArray[i].minute = minute
+        this.timerArray[i].second = second
         this.timerArray[i].status = false;
       }
       else if (secondArr[i] != 0 && secondArr[i] < 60) {
@@ -123,8 +125,10 @@ export class AppComponent implements OnDestroy {
           second = 59
           minute = minute - 1
         }
-        this.timeEndDisplay = "Timer " + (i + 1) + " :-  " + minute + ":" + second--
-        this.timerArray[i].dis = this.timeEndDisplay
+       
+        this.timerArray[i].minute = minute
+        this.timerArray[i].second = second
+        second--
         counter = counter - 1
         if (counter == 0 || counter < 0) {
           clearInterval(interval);

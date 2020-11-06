@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {AppComponent} from '../app.component';
+import {MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-timer-dialog',

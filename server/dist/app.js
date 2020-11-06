@@ -40,7 +40,7 @@ class App {
         this.express.get("/", (req, res, next) => {
             res.send("Typescript App works!!");
         });
-        // user route
+        // timer route
         this.express.use("/api", routes_1.default);
         // handle undefined routes
         this.express.use("*", (req, res, next) => {

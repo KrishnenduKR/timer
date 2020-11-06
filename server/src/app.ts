@@ -23,7 +23,7 @@ class App{
             res.send("Typescript App works!!");
         });
 
-        // user route
+        // timer route
         this.express.use("/api", Routes);
 
         // handle undefined routes

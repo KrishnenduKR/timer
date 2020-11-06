@@ -71,7 +71,7 @@ export class AppComponent implements OnDestroy {
         clearInterval(interval);
 
       }
-      counter = counter - 1
+      
       if (i < 0 && minutes >= 0) {
         i = 59
         minutes = minutes - 1
@@ -80,7 +80,7 @@ export class AppComponent implements OnDestroy {
       
       this.timeEndDisplay = "Timer " + timercount + " :-  " + minutes + ":" + i--
       this.timerArray[timercount - 1].dis = this.timeEndDisplay
-      
+      counter = counter - 1
       if (counter == 0) {
         clearInterval(interval);
         this.timerArray[timercount - 1].status = false;

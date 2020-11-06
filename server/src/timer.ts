@@ -25,7 +25,7 @@ class Timer{
         });
 
         this.express.post("/timer", (req, res, next) => {
-            console.log('reqbody',typeof (req.body))
+            
             this.startTimer(req.body);
            // res.json();
         });
@@ -41,7 +41,6 @@ class Timer{
                 this.secondsArr[id-1] = seconds
                 if (seconds == 0 ) {
                     clearInterval(interval);
-                    console.log('Ding!');
                   }
             }, 1000);
          

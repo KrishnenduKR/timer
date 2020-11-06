@@ -106,11 +106,11 @@ export class AppComponent implements OnDestroy {
         this.timerArray[i].status = false;
       }
       else if (secondArr[i] != 0 && secondArr[i] < 60) {
-        second = secondArr[i]
+        second = secondArr[i] - 1
         minute = 0
       }
       else {
-        second = secondArr[i] % 60
+        second = (secondArr[i] % 60) - 1
         minute = Math.floor(secondArr[i] / 60)
       }
 
@@ -118,14 +118,14 @@ export class AppComponent implements OnDestroy {
         if (minute < 0) {
           clearInterval(interval);
         }
-        counter = counter - 1
+        
         if (second < 0 && minute >= 0) {
           second = 59
           minute = minute - 1
         }
-        this.timeEndDisplay = "Timer " + (i + 1) + " :-  " + minute + ":" + second
+        this.timeEndDisplay = "Timer " + (i + 1) + " :-  " + minute + ":" + second--
         this.timerArray[i].dis = this.timeEndDisplay
-        second = second - 1
+        counter = counter - 1
         if (counter == 0 || counter < 0) {
           clearInterval(interval);
           this.timerArray[i].status = false;

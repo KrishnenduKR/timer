@@ -9,20 +9,19 @@ const baseUrl = '/api';
 })
 export class TimerService {
 
-  constructor( private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  getTimerSeconds() : Observable<number[]> {
-    return this.http.get<number[]>(baseUrl + '/timers',{});
+  getTimerSeconds(): Observable<number[]> {
+    return this.http.get<number[]>(baseUrl + '/timers', {});
   }
 
   createTimer(data) {
-    
+
     let body = JSON.stringify({
       "id": data.id,
-      "minute" : data.minute
+      "minute": data.minute
     });
-    console.log('data',JSON.parse(body))
-    const headers = { 'content-type': 'application/json'}
-    return this.http.post(baseUrl + '/timer', JSON.parse(body), {'headers':headers});
+    const headers = { 'content-type': 'application/json' }
+    return this.http.post(baseUrl + '/timer', JSON.parse(body), { 'headers': headers });
   }
 }

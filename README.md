@@ -5,7 +5,7 @@ The folder client includes front-end angular code and server folder includes bac
 
 ## Setup
 
-clone the project using `git url`
+clone the project using `https://github.com/KrishnenduKR/timer.git`
 ```
 cd client
 npm install

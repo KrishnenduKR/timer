@@ -50,8 +50,7 @@ export class AppComponent implements OnDestroy {
         this.timercount++
         this.timerArray.push({ id: this.timercount, val: result.data, minute:"",second:"", status: true })
         this.startTimer(result.data, this.timercount)
-        let data = { "id": this.timercount, "minute": result.data }
-        this.timerService.createTimer(data).subscribe(result => {
+        this.timerService.createTimer(result.data).subscribe(result => {
           console.log('createserviceresult', result)
         })
       }

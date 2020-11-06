@@ -24,17 +24,18 @@ export class AppComponent implements OnDestroy {
   secondsArr: number[];
 
   constructor(public dialog: MatDialog, public timerService: TimerService, private router: Router) {
-    this.timercount = 0;
-    this.subscription = router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        this.browserRefresh = !router.navigated;
-        timerService.getTimerSeconds().subscribe(seconds => {
-          this.secondsArr = seconds
-          console.log(this.secondsArr)
-          this.startAfterRefresh(this.secondsArr)
-        })
-      }
-    });
+      this.timercount = 0;
+
+      this.subscription = router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          this.browserRefresh = !router.navigated;
+          timerService.getTimerSeconds().subscribe(seconds => {
+            this.secondsArr = seconds
+            console.log(this.secondsArr)
+            this.startAfterRefresh(this.secondsArr)
+          })
+        }
+      });
   }
 
   openDialog() {
@@ -104,7 +105,7 @@ export class AppComponent implements OnDestroy {
         this.timerArray[i].dis = this.timeEndDisplay
         this.timerArray[i].status = false;
       }
-      else if (secondArr[i] < 60){
+      else if (secondArr[i] != 0 && secondArr[i] < 60){
         second = secondArr[i]
         minute = 0
       }
@@ -112,20 +113,20 @@ export class AppComponent implements OnDestroy {
         second = secondArr[i] % 60
         minute = Math.floor(secondArr[i] / 60)
       }
-      let j = second;
+      
       const interval = setInterval(() => {
         if (minute < 0) {
           clearInterval(interval);
         }
         counter = counter - 1
-        if (j < 0 && minute >= 0) {
-          j = 59
+        if (second < 0 && minute >= 0) {
+          second = 59
           minute = minute - 1
         }
-        this.timeEndDisplay = "Timer " + (i + 1) + " :-  " + minute + ":" + --j
+        this.timeEndDisplay = "Timer " + (i + 1) + " :-  " + minute + ":" + second
         this.timerArray[i].dis = this.timeEndDisplay
-        
-        if (counter == 0) {
+        second = second -1
+        if (counter == 0 || counter < 0) {
           clearInterval(interval);
           this.timerArray[i].status = false;
         }

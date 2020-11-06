@@ -7,7 +7,7 @@
     <button mat-raised-button color="primary" (click)="openDialog()">Add New Timer +</button>
         
   </div>
-  <div class="display" *ngFor="let data of timerArray">
-    <h2 [ngStyle]="{'text-decoration' : data.status? 'none':'line-through'}">{{data.dis}}</h2>
+  <div class="display" *ngFor="let data of timerArray; let i = index">
+    <h2 [ngStyle]="{'text-decoration' : (data.dis == '0:0')? 'line-through':'none'}"> Timer {{ i+1 }} : {{data.dis}}</h2>
   </div>
 

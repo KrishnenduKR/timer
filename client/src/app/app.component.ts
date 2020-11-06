@@ -31,7 +31,7 @@ export class AppComponent implements OnDestroy {
         this.browserRefresh = !router.navigated;
         timerService.getTimerSeconds().subscribe(seconds => {
           this.secondsArr = seconds
-          this.startAfterRefresh(this.secondsArr)
+          this.onloadTimer(this.secondsArr)
         })
       }
     });
@@ -47,91 +47,59 @@ export class AppComponent implements OnDestroy {
       this.dataSource = result
 
       if (result.data > 0) {
-        this.timercount++
-        this.timerArray.push({ id: this.timercount, val: result.data, dis: "", status: true })
-        this.startTimer(result.data, this.timercount)
-        let data = { "id": this.timercount, "minute": result.data }
-        this.timerService.createTimer(data).subscribe(result => {
-          console.log('createserviceresult', result)
-        })
-      }
 
+        let nTime= (result.data*60) - 1;
+        let minutes = Math.floor(nTime/ 60)
+        let seconds = nTime - minutes * 60;
+         this.timerArray.push({dis: minutes+":"+seconds})
+         let data = {"minute": result.data }
+         this.timerService.createTimer(data).subscribe(result => {
+           console.log('createserviceresult', result)
+         })   
+         this.addTimer(nTime);   
+      }
     });
   }
 
-  startTimer(minute: number, timercount) {
-    let minutes = minute
-    let counter = 60 * minutes
-    let i = 59;
 
-    minutes = minutes - 1
+  addTimer(nTime) {
+      let minutes = Math.floor(nTime/ 60)
+      let seconds = nTime - minutes * 60;
 
-    const interval = setInterval(() => {
-      if (minutes < 0) {
-        clearInterval(interval);
-
-      }
-      
-      if (i < 0 && minutes >= 0) {
-        i = 59
-        minutes = minutes - 1
-      }
-
-      
-      this.timeEndDisplay = "Timer " + timercount + " :-  " + minutes + ":" + i--
-      this.timerArray[timercount - 1].dis = this.timeEndDisplay
-      counter = counter - 1
-      if (counter == 0) {
-        clearInterval(interval);
-        this.timerArray[timercount - 1].status = false;
-      }
-    }, 1000);
+        let i = this.timerArray.length -1;
+        const interval = setInterval(() => {    
+          nTime--;
+          minutes = Math.floor(nTime/ 60)
+          seconds = nTime - minutes * 60;
+          this.timerArray[i].dis = minutes+":"+seconds;
+          if (nTime == 0) {
+            clearInterval(interval);
+          }
+        }, 1000)
 
   }
 
-  startAfterRefresh(secondArr) {
-    for (let i = 0; i < secondArr.length; i++) {
-      let second;
-      let minute;
-      this.timercount++
-      let counter = secondArr[i]
-      this.timerArray.push({ id: i, val: counter, dis: "", status: true })
+  onloadTimer(tArray){
 
+    for (let i = 0; i < tArray.length; i++) {
+      let nTime= tArray[i];
+      let minutes = Math.floor(tArray[i]/ 60)
+      let seconds = tArray[i] - minutes * 60;
 
-      if (secondArr[i] == 0) {
-        minute = 0
-        second = 0
-        this.timeEndDisplay = "Timer " + (i + 1) + " :-  " + minute + ":" + second
-        this.timerArray[i].dis = this.timeEndDisplay
-        this.timerArray[i].status = false;
-      }
-      else if (secondArr[i] != 0 && secondArr[i] < 60) {
-        second = secondArr[i] - 1
-        minute = 0
-      }
-      else {
-        second = (secondArr[i] % 60) - 1
-        minute = Math.floor(secondArr[i] / 60)
-      }
-
-      const interval = setInterval(() => {
-        if (minute < 0) {
-          clearInterval(interval);
-        }
-        
-        if (second < 0 && minute >= 0) {
-          second = 59
-          minute = minute - 1
-        }
-        this.timeEndDisplay = "Timer " + (i + 1) + " :-  " + minute + ":" + second--
-        this.timerArray[i].dis = this.timeEndDisplay
-        counter = counter - 1
-        if (counter == 0 || counter < 0) {
-          clearInterval(interval);
-          this.timerArray[i].status = false;
-        }
-      }, 1000)
+    this.timerArray.push({dis: minutes+":"+seconds})
+     if(tArray[i]!=0){
+        const interval = setInterval(() => {    
+          nTime--;
+          minutes = Math.floor(nTime/ 60)
+          seconds = nTime - minutes * 60;
+          this.timerArray[i].dis = minutes+":"+seconds;
+          if (nTime == 0) {
+            clearInterval(interval);
+          }
+        }, 1000)
+      }    
     }
+
   }
 
   ngOnDestroy() {

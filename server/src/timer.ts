@@ -33,17 +33,16 @@ class Timer{
 
     startTimer(data:any){
         let minute = data.minute
-        let id = data.id
+        let id = this.secondsArr.length;
         let seconds  = minute * 60
     
             const interval = setInterval(() => {
                 seconds--
-                this.secondsArr[id-1] = seconds
+                this.secondsArr[id] = seconds
                 if (seconds == 0 ) {
                     clearInterval(interval);
                   }
-            }, 1000);
-         
+            }, 1000); 
       }
 }
 

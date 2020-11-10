@@ -3,8 +3,13 @@
     <mat-icon>home</mat-icon>&nbsp;&nbsp;Timer
   </mat-toolbar>
 
+  <div class="checkBox">
+      <mat-checkbox [(checked)]="btnColorChecked" (change)="sendCheckboxval($event.checked)">Choose Button Color</mat-checkbox>
+  </div>
+
   <div class="container">
-    <button mat-raised-button color="primary" (click)="openDialog()">Add New Timer +</button>
+    
+    <button mat-raised-button [ngStyle]="{'background-color': (btnColorChecked)? 'blue' : 'green'}" (click)="openDialog()">Add New Timer +</button>
         
   </div>
   <div class="display" *ngFor="let data of timerArray; let i = index">

@@ -22,9 +22,13 @@ export class AppComponent implements OnDestroy {
   subscription: Subscription;
   browserRefresh = false;
   secondsArr: number[];
+  btnColorChecked;
+  btnColor = "blue"
+
 
   constructor(public dialog: MatDialog, public timerService: TimerService, private router: Router) {
     this.timercount = 0;
+    this.btnColorChecked = true;
 
     this.subscription = router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
@@ -32,6 +36,9 @@ export class AppComponent implements OnDestroy {
         timerService.getTimerSeconds().subscribe(seconds => {
           this.secondsArr = seconds
           this.onloadTimer(this.secondsArr)
+        })
+        timerService.getBtnBoolean().subscribe(val => {
+          this.btnColorChecked = val;
         })
       }
     });
@@ -104,6 +111,13 @@ export class AppComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  sendCheckboxval(val){
+    this.btnColorChecked = val
+    this.timerService.sendBtnBoolean(val).subscribe(result => {
+      console.log(result)
+    })
   }
 
 }

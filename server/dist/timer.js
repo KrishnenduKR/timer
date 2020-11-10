@@ -41,6 +41,12 @@ class Timer {
             this.startTimer(req.body);
             // res.json();
         });
+        this.express.post("/setval", (req, res, next) => {
+            this.btnVal = req.body.val;
+        });
+        this.express.get("/getval", (req, res, next) => {
+            res.json(this.btnVal);
+        });
     }
     startTimer(data) {
         let minute = data.minute;

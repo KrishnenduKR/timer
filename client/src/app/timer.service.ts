@@ -24,4 +24,16 @@ export class TimerService {
     const headers = { 'content-type': 'application/json' }
     return this.http.post(baseUrl + '/timer', JSON.parse(body), { 'headers': headers });
   }
+
+  sendBtnBoolean(val) {
+    let body = JSON.stringify({
+      val 
+    });
+    const headers = { 'content-type': 'application/json' }
+    return this.http.post(baseUrl + '/setval', JSON.parse(body),{ 'headers': headers });
+  }
+
+  getBtnBoolean():Observable<boolean>{
+    return this.http.get<boolean>(baseUrl + '/getval', {});
+  }
 }
